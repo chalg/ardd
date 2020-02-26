@@ -504,7 +504,7 @@ ggsave("fatality_rate.png", path = "images", plot = last_plot(), width = 10, hei
 
 Population density is calculated based on ABS estimated population (link provided 
 earlier) and land area for each state 
-(Population Estimates by Statistical Area Level 2, 2005 to 2015) [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02014-15?OpenDocument).
+(Population Estimates by Statistical Area Level 2 (ASGS 2016), 2017 to 2018) [here](https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02017-18?OpenDocument).
 
 ------
 

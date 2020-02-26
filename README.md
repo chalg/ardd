@@ -1,12 +1,13 @@
-# ardd
+# Australian Road Deaths Database Exploratory Data Analysis
 
 <!-- badges: start -->
 <!-- badges: end -->
 
 The goal of ardd is to provide an updated version of the EDA-ARRD repository,
-using more modern R packages and leveraging the tidyverse more heavily.
+using more modern R packages and leveraging the tidyverse more heavily. Using 
+tidyverse principles has made the code more compact and easier to understand.
 
-## Data Description
+### Data Description
 
 The Australian Road Deaths Database (ARDD) is maintained and published by the
 Bureau of Infrastructure, Transport and Regional Economics (BITRE).
