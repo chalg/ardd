@@ -3,12 +3,12 @@ title: "Exploratory Data Analysis of Australian Road Fatalities"
 author: "Grant Chalmers"
 date: "Created 22 Feb, 2020; Last Update `r format(Sys.time(), '%d %B, %Y')`"
 output:
-  html_document:
-  # github_document:
+  # html_document:
+  github_document:
     df_print: paged
     toc: true
-    toc_float: yes
-    # toc_depth: 3
+    # toc_float: yes
+    toc_depth: 3
   
 ---
 ## Preparation
