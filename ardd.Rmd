@@ -152,6 +152,8 @@ hist2 <- fatal_unique %>%
 
 hist1 / hist2
 
+ggsave("histograms_patchwork.png", plot = last_plot(), path = "images")
+
 ```
 
 In the first plot above it is obvious that the vast majority of total fatalities
@@ -212,6 +214,8 @@ bar1 <- ggplot(aes(x = dayweek), data = fatal) +
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 
 (hist3 | hist4) / bar1
+
+ggsave("histograms2_patchwork.png", plot = last_plot(), path = "images")
 
 ```
 
@@ -291,7 +295,9 @@ box3 <- fatal %>% filter(!gender == "Unknown",
         plot.caption = element_text(size = 8.5, color = "gray50", face = "italic"),
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 
-(box2 + box3) / box1 
+(box2 + box3) / box1
+
+ggsave("boxplots_patchwork.png", plot = last_plot(), path = "images")
 ```
 
 
