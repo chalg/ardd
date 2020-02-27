@@ -3,19 +3,18 @@ Exploratory Data Analysis of Australian Road Fatalities
 Grant Chalmers
 Created 22 Feb, 2020; Last Update 27 February, 2020
 
--   [Preparation](#preparation)
-    -   [Setup](#setup)
-    -   [Read in data](#read-in-data)
--   [Data Description](#data-description)
-    -   [Data Cleaning](#data-cleaning)
--   [Visualisations](#visualisations)
-    -   [Histograms](#histograms)
-    -   [Boxplots](#boxplots)
-    -   [Lineplots (trends)](#lineplots-trends)
-    -   [Bespoke Visualisations](#bespoke-visualisations)
+  - [Preparation](#preparation)
+      - [Setup](#setup)
+      - [Read in data](#read-in-data)
+  - [Data Description](#data-description)
+      - [Data Cleaning](#data-cleaning)
+  - [Visualisations](#visualisations)
+      - [Histograms](#histograms)
+      - [Boxplots](#boxplots)
+      - [Lineplots (trends)](#lineplots-trends)
+      - [Bespoke Visualisations](#bespoke-visualisations)
 
-Preparation
------------
+## Preparation
 
 ### Setup
 
@@ -51,7 +50,7 @@ glimpse(ardd_fatalities)
     #> $ Month                           <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
     #> $ Year                            <dbl> 2020, 2020, 2020, 2020, 2020, ...
     #> $ Dayweek                         <chr> "Sunday", "Sunday", "Friday", ...
-    #> $ Time                            <time> 00:00:00, 04:25:00, 23:00:00,...
+    #> $ Time                            <drtn> 00:00:00, 04:25:00, 23:00:00,...
     #> $ `Crash Type`                    <chr> "Single", "Single", "Pedestria...
     #> $ `Bus Involvement`               <chr> "No", "No", "No", "-9", "No", ...
     #> $ `Heavy Rigid Truck Involvement` <chr> "No", "No", "No", "-9", "No", ...
@@ -81,7 +80,7 @@ glimpse(ardd_fatal_crash)
     #> $ Month                           <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
     #> $ Year                            <dbl> 2020, 2020, 2020, 2020, 2020, ...
     #> $ Dayweek                         <chr> "Tuesday", "Saturday", "Wednes...
-    #> $ Time                            <time> 22:00:00, 14:40:00, 10:00:00,...
+    #> $ Time                            <drtn> 22:00:00, 14:40:00, 10:00:00,...
     #> $ `Crash Type`                    <chr> "Pedestrian", "Multiple", "Sin...
     #> $ `Number Fatalities`             <dbl> 1, 2, 1, 2, 1, 1, 1, 1, 1, 1, ...
     #> $ `Bus \nInvolvement`             <chr> "-9", "No", "No", "No", "No", ...
@@ -102,19 +101,32 @@ glimpse(ardd_fatal_crash)
 fatal <- ardd_fatal_crash %>% left_join(ardd_fatalities)
 ```
 
-Data Description
-----------------
+## Data Description
 
-The Australian Road Deaths Database (ARDD) is maintained and published by the Bureau of Infrastructure, Transport and Regional Economics (BITRE). It commenced in 1989 and is updated on a monthly basis. The ARDD contains basic demographic and crash details of people who have died in an Australian road crash. Every fatal road traffic crash in Australia is in scope, and information is included for all people who were killed.
+The Australian Road Deaths Database (ARDD) is maintained and published
+by the Bureau of Infrastructure, Transport and Regional Economics
+(BITRE). It commenced in 1989 and is updated on a monthly basis. The
+ARDD contains basic demographic and crash details of people who have
+died in an Australian road crash. Every fatal road traffic crash in
+Australia is in scope, and information is included for all people who
+were killed.
 
 It is published in two forms:
 
--   Fatalities: each record is a killed person
--   Crashes: each record is a fatal crash
+  - Fatalities: each record is a killed person
+  - Crashes: each record is a fatal crash
 
-The database can be found [here](https://bitre.gov.au/statistics/safety/fatal_road_crash_database.aspx), csv files can be found [here](https://data.gov.au/dataset/ds-dga-5b530fb8-526e-4fbf-b0f6-aa24e84e4277/details?q=crash), data dictionary can be found [here](https://bitre.gov.au/statistics/safety/files/ARDD_Dictionary_V3.pdf).
+The database can be found
+[here](https://bitre.gov.au/statistics/safety/fatal_road_crash_database.aspx),
+csv files can be found
+[here](https://data.gov.au/dataset/ds-dga-5b530fb8-526e-4fbf-b0f6-aa24e84e4277/details?q=crash),
+data dictionary can be found
+[here](https://bitre.gov.au/statistics/safety/files/ARDD_Dictionary_V3.pdf).
 
-Estimated population can be sourced from [here](https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3101.0Jun%202019?OpenDocument) (TABLE 4. Estimated Resident Population, States and Territories (Number))
+Estimated population can be sourced from
+[here](https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3101.0Jun%202019?OpenDocument)
+(TABLE 4. Estimated Resident Population, States and Territories
+(Number))
 
 The data is already in a tidy format.
 
@@ -136,7 +148,7 @@ glimpse(fatal)
     #> $ month                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,...
     #> $ year                          <dbl> 2020, 2020, 2020, 2020, 2020, 20...
     #> $ dayweek                       <chr> "Tuesday", "Saturday", "Saturday...
-    #> $ time                          <time> 22:00:00, 14:40:00, 14:40:00, 1...
+    #> $ time                          <drtn> 22:00:00, 14:40:00, 14:40:00, 1...
     #> $ crash_type                    <chr> "Pedestrian", "Multiple", "Multi...
     #> $ number_fatalities             <dbl> 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1,...
     #> $ bus_involvement               <chr> "-9", "No", "No", "No", "No", "N...
@@ -172,7 +184,7 @@ fatal <- fatal %>% mutate(hour = hour(fatal$time)) %>%
     #> $ month                         <dbl> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,...
     #> $ year                          <dbl> 2020, 2020, 2020, 2020, 2020, 20...
     #> $ dayweek                       <chr> "Tuesday", "Saturday", "Saturday...
-    #> $ time                          <time> 22:00:00, 14:40:00, 14:40:00, 1...
+    #> $ time                          <drtn> 22:00:00, 14:40:00, 14:40:00, 1...
     #> $ crash_type                    <chr> "Pedestrian", "Multiple", "Multi...
     #> $ number_fatalities             <dbl> 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1,...
     #> $ bus_involvement               <chr> "-9", "No", "No", "No", "No", "N...
@@ -200,8 +212,7 @@ fatal <- fatal %>% mutate(hour = hour(fatal$time)) %>%
 fatal_unique <- fatal %>% distinct(crash_id, .keep_all = TRUE)
 ```
 
-Visualisations
---------------
+## Visualisations
 
 ### Histograms
 
@@ -241,11 +252,18 @@ hist2 <- fatal_unique %>%
 hist1 / hist2
 ```
 
-<img src="ardd_files/figure-markdown_github/univariate_plots_1-1.png"  />
+<img src=https://github.com/chalg/ardd/blob/master/images/histograms_patchwork.png  />
 
-In the first plot above it is obvious that the vast majority of total fatalities involved only one fatality.
+``` r
+ggsave("histograms_patchwork.png", plot = last_plot(), path = "images")
+```
 
-From the second plot it is clear that most fatalities occurred in the 60, 80, 100 & 110 km/h speed limit zones, which makes sense considering those are the most common.
+In the first plot above it is obvious that the vast majority of total
+fatalities involved only one fatality.
+
+From the second plot it is clear that most fatalities occurred in the
+60, 80, 100 & 110 km/h speed limit zones, which makes sense considering
+those are the most common.
 
 ``` r
 # Review count of fatalties by year, excluding 2017
@@ -300,15 +318,26 @@ bar1 <- ggplot(aes(x = dayweek), data = fatal) +
 (hist3 | hist4) / bar1
 ```
 
-<img src="ardd_files/figure-markdown_github/univariate_plots_2-1.png"  />
+<img src=https://github.com/chalg/ardd/blob/master/images/histograms2_patchwork.png  />
 
-In the first plot above there is a clear downward trend in Australian road fatality numbers from 1989 to 2019, which is a very favourable trend.
+``` r
+ggsave("histograms2_patchwork.png", plot = last_plot(), path = "images")
+```
+
+In the first plot above there is a clear downward trend in Australian
+road fatality numbers from 1989 to 2019, which is a very favourable
+trend.
 
 Note: 2020 was excluded because it is not a full year of data.
 
-The count of fatalities per hour show that most fatalities occur in the afternoon peak hour.
+The count of fatalities per hour show that most fatalities occur in the
+afternoon peak hour.
 
-The count of fatalities per day of the week shows that considerably more fatalities occur on weekends, which is not surprising. The increase during the week is interesting and maybe a reflection of increased activity, drink driving, or general distraction as the weekend approaches.
+The count of fatalities per day of the week shows that considerably more
+fatalities occur on weekends, which is not surprising. The increase
+during the week is interesting and maybe a reflection of increased
+activity, drink driving, or general distraction as the weekend
+approaches.
 
 ### Boxplots
 
@@ -373,10 +402,14 @@ box3 <- fatal %>% filter(!gender == "Unknown",
         plot.caption = element_text(size = 8.5, color = "gray50", face = "italic"),
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 
-(box2 + box3) / box1 
+(box2 + box3) / box1
 ```
 
-<img src="ardd_files/figure-markdown_github/boxplots-1.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/boxplots_patchwork.png"  />
+
+``` r
+ggsave("boxplots_patchwork.png", plot = last_plot(), path = "images")
+```
 
 ``` r
 # Always use fatal_unique when aggregating the number_fatalities field, otherwise
@@ -402,7 +435,7 @@ fatal_unique %>%
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 ```
 
-<img src="ardd_files/figure-markdown_github/road_fatalities_trend-1.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/oz_road_fatalities.png"  />
 
 ``` r
 ggsave("oz_road_fatalities.png", plot = last_plot(), path = "images")
@@ -442,7 +475,7 @@ fatal %>% filter(!gender == "Unspecified",
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 ```
 
-<img src="ardd_files/figure-markdown_github/driver_mc_age_gender-1.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/age_gender_fatalities.png"  />
 
 ``` r
 ggsave("age_gender_fatalities.png", plot = last_plot(), path = "images")
@@ -478,7 +511,7 @@ fatal %>% filter(!gender == "Unspecified",
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 ```
 
-<img src="ardd_files/figure-markdown_github/fatal_road_user_age_gender-1.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/road_user_age_gender_fatalities.png"  />
 
 ``` r
 ggsave("road_user_age_gender_fatalities.png", plot = last_plot(), path = "images")
@@ -509,15 +542,19 @@ fatal_unique %>%
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
 ```
 
-<img src="ardd_files/figure-markdown_github/fatalities_by_state_facet-1.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/fatalities_by_state.png"  />
 
 ``` r
 ggsave("fatalities_by_state.png", plot = last_plot(), path = "images")
 ```
 
-The plot above shows the number of fatalities per year split by state. Here we can see a downward trend in every state, although some trends are more consistent than others. The ACT, NT and TAS seem to be more variable, whereas, NSW, VIC and SA look more smooth and linear.
+The plot above shows the number of fatalities per year split by state.
+Here we can see a downward trend in every state, although some trends
+are more consistent than others. The ACT, NT and TAS seem to be more
+variable, whereas, NSW, VIC and SA look more smooth and linear.
 
-Note: the y scale is different for each plot based on population and fatalities.
+Note: the y scale is different for each plot based on population and
+fatalities.
 
 ### Bespoke Visualisations
 
@@ -552,7 +589,7 @@ fatal_state_apop <- fatal_state %>%
     #> $ state           <chr> "ACT", "NSW", "NT", "QLD", "SA", "TAS", "VIC",...
     #> $ sum_fatal_state <dbl> 462, 15832, 1586, 10021, 4391, 1494, 11205, 6010
     #> $ est_pop         <dbl> 426709, 8089526, 245869, 5095100, 1751693, 534...
-    #> $ area            <dbl> 2357.9, 800808.8, 1348199.0, 1729958.0, 984179...
+    #> $ area            <dbl> 2358.2, 800810.8, 1348094.3, 1730172.1, 984274...
 
 ``` r
 # Create variable to contain the number of years to help calculate yearly
@@ -613,13 +650,16 @@ plt <- plt1 + plt2
 plt
 ```
 
-<img src="https://github.com/chalg/ardd/blob/master/images/age_gender_fatalities.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/fatality_rate.png"  />
 
 ``` r
 # Save file and increase dimensions so all labels fit.
 ggsave("fatality_rate.png", path = "images", plot = last_plot(), width = 10, height = 6)
 ```
 
-Population density is calculated based on ABS estimated population (link provided earlier) and land area for each state (Population Estimates by Statistical Area Level 2, 2005 to 2015) [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02014-15?OpenDocument).
+Population density is calculated based on ABS estimated population (link
+provided earlier) and land area for each state (Population Estimates by
+Statistical Area Level 2, 2005 to 2015)
+[here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02014-15?OpenDocument).
 
-------------------------------------------------------------------------
+-----
