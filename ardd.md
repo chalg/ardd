@@ -613,7 +613,7 @@ plt <- plt1 + plt2
 plt
 ```
 
-<img src="ardd_files/figure-markdown_github/fatal_rate_by_state-1.png"  />
+<img src="https://github.com/chalg/ardd/blob/master/images/age_gender_fatalities.png"  />
 
 ``` r
 # Save file and increase dimensions so all labels fit.
