@@ -4,11 +4,13 @@ author: "Grant Chalmers"
 date: "Created 22 Feb, 2020; Last Update `r format(Sys.time(), '%d %B, %Y')`"
 output:
   html_document:
-      toc: true
-      toc_float: true
-
+  # github_document:
+    df_print: paged
+    toc: true
+    toc_float: yes
+    # toc_depth: 3
+  
 ---
-
 ## Preparation
 
 ### Setup
@@ -35,8 +37,13 @@ my_colours <- c("#CC79A7", "#56B4E9", "#009E73", "salmon", "peru", "peachpuff4")
 
 ```{r load_libraries, include=TRUE, message=FALSE, warning=FALSE,}
 
-lapply(c("tidyverse", "lubridate", "purrr", "janitor", "scales", "patchwork"),
-       require, character.only = TRUE)
+# Load required libraries
+library(tidyverse)   # core Tidyverse - Loads dplyr & purrr
+library(lubridate)   # date & time manipulation
+library(ggridges)    # https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html
+library(janitor)     # simple functions for examining and cleaning dirty data
+library(scales)      # provides internal scaling infrastructure used by ggplot2
+library(patchwork)   # makes combining separate ggplots ridiculously simple
 
 # Set a consistent ggplot theme
 theme_set(theme_minimal())
@@ -128,8 +135,6 @@ hist1 <- fatal_unique %>%
         plot.caption = element_text(size = 8.5, color = "gray50", face = "italic"),
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
   
-
-
 # Review count of speed limit zones where a fatality was recorded
 hist2 <- fatal_unique %>%
   filter(speed_limit>= 0 & speed_limit <= 130) %>% 
@@ -459,8 +464,9 @@ plt1 <- fatal_state_apop %>%
   geom_bar(stat = 'identity', fill = my_colours[5]) +
   geom_hline(aes(yintercept = mean_fatal_rate), colour="#BB0000",
              linetype="dashed") +
-  annotate("text", x = "WA", y = fatal_state_apop$mean_fatal_rate + 0.5, label = paste0("Mean == ", round(fatal_state_apop$mean_fatal_rate, 3)),
-             parse = TRUE, size = 2.5, colour = "grey40") +
+  annotate("text", x = "WA", y = fatal_state_apop$mean_fatal_rate + 0.5,
+           label = paste0("Mean == ", round(fatal_state_apop$mean_fatal_rate, 3)),
+           parse = TRUE, size = 2.5, colour = "grey40") +
   scale_fill_manual(values = my_colours) +
   labs(x = "State", y = "Fatalities per year for every 100,000 people",
        title = 'Australian Road Fatality Rate by State (1989-2019)') +
@@ -504,7 +510,7 @@ ggsave("fatality_rate.png", path = "images", plot = last_plot(), width = 10, hei
 
 Population density is calculated based on ABS estimated population (link provided 
 earlier) and land area for each state 
-(Population Estimates by Statistical Area Level 2 (ASGS 2016), 2017 to 2018) [here](https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02017-18?OpenDocument).
+(Population Estimates by Statistical Area Level 2, 2005 to 2015) [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02014-15?OpenDocument).
 
 ------
 
