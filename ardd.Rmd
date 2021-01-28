@@ -3,11 +3,11 @@ title: "Exploratory Data Analysis of Australian Road Fatalities"
 author: "Grant Chalmers"
 date: "Created 22 Feb, 2020; Last Update `r format(Sys.time(), '%d %B, %Y')`"
 output:
-  # html_document:
-  github_document:
+  html_document:
+  #github_document:
     df_print: paged
     toc: true
-    # toc_float: yes
+    toc_float: yes
     toc_depth: 3
   
 ---
@@ -54,8 +54,8 @@ theme_set(theme_minimal())
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, Load_the_Data}
 # Load the Data
-ardd_fatalities <- read_csv("~/R/ardd/data/ardd_fatalities.csv")
-ardd_fatal_crash <- read_csv("~/R/ardd/data/ardd_fatal_crashes.csv")
+ardd_fatalities <- read_csv("~/R/ardd/data/ardd_fatalities_dec2020.csv")
+ardd_fatal_crash <- read_csv("~/R/ardd/data/ardd_fatal_crashes_dec2020.csv")
 est_pop <- read_csv("~/R/ardd/data/estimated_population.csv")
 state_area <- read_csv("~/R/ardd/data/state_area.csv")
 
@@ -126,7 +126,7 @@ hist1 <- fatal_unique %>%
   scale_x_continuous(lim = c(0, quantile(fatal_unique$number_fatalities, .999, na.rm = TRUE))) +
   scale_y_continuous() +
   labs(x = "Number of Fatalities", y = "Count",
-       title = 'Australian Road Fatalities (1989-2019)') +
+       title = 'Australian Road Fatalities (1989-2020)') +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
         axis.title = element_text(size = 10), legend.position = "bottom",
@@ -167,10 +167,10 @@ most common.
 # Review count of fatalties by year, excluding 2017
 hist3 <- fatal %>% 
 ggplot(aes(x = year)) +
-  scale_x_continuous(limits = c(1989, 2019), breaks = seq(1989, 2019, 3)) +
+  scale_x_continuous(limits = c(1989, 2020), breaks = seq(1989, 2020, 3)) +
   geom_histogram(binwidth = 1, fill = my_colours[1], alpha = 0.70) +
   labs(x = "Year", y = "Count",
-       title = 'Australian Road Fatalities (1989-2019)') +
+       title = 'Australian Road Fatalities (1989-2020)') +
   # scale_fill_manual(values = my_colours) +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
@@ -266,7 +266,7 @@ box2 <- fatal %>% filter(!gender == "Unknown",
   scale_y_continuous(breaks = seq(0, 100, 10)) +
   stat_summary(fun.y = mean, geom = 'point', shape = 4) +
   labs(x = "Gender", y = "Age",
-       title = 'Australian Road Fatalities (1989-2019)') +
+       title = 'Australian Road Fatalities (1989-2020)') +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
         axis.title = element_text(size = 10), legend.position = "bottom",
@@ -306,22 +306,22 @@ ggsave("boxplots_patchwork.png", plot = last_plot(), path = "images")
 # Always use fatal_unique when aggregating the number_fatalities field, otherwise
 # it will be overstated.
 fatal_unique %>%
-  filter(year < 2020,
+  filter(year < 2021,
          !is.na(number_fatalities)) %>% 
   group_by(year) %>% 
   summarise(sum_fatal = sum(number_fatalities)) %>% #write_csv("oz_road_fatalities.csv")
   ggplot(aes(x = year, y = sum_fatal)) +
   geom_line(col = "purple", size = 1) +
   geom_smooth(method = 'loess', color = 'green') +
-  scale_x_continuous(breaks = seq(1989, 2019, 2)) +
+  scale_x_continuous(breaks = seq(1989, 2020, 1)) +
   scale_y_continuous(labels = scales::comma) +
   labs(x = "Year", y = "Number of Fatalities",
-       title = "Australian Road Fatalities (1989-2019)",
+       title = "Australian Road Fatalities (1989-2020)",
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
         axis.title = element_text(size = 10), legend.position = "right",
-        axis.text.x = element_text(angle = 0, size = 9),
+        axis.text.x = element_text(angle = 90, size = 9),
         plot.caption = element_text(size = 9, color = "gray50", face = "italic"),
         legend.title = element_text(size = 9), legend.text = element_text(size = 9))
  
@@ -352,7 +352,7 @@ fatal %>% filter(!gender == "Unspecified",
   scale_colour_manual(values = my_colours) +
   labs(x = "Age", y = "Number of Fatalities",
        title = 'Australian Driver and Motor Cycle Rider Fatalities by Age and Gender',
-       subtitle = "1989-2019",
+       subtitle = "1989-2020",
        colour = "Gender",
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
@@ -385,7 +385,7 @@ fatal %>% filter(!gender == "Unspecified",
   scale_colour_manual(values = my_colours) +
   facet_wrap(~ gender, scales = "free_y") +
   labs(x = "Age", y = "Number of Fatalities",
-       title = 'Australian Road Fatalities by Road User, Age and Gender (1989-2019)',
+       title = 'Australian Road Fatalities by Road User, Age and Gender (1989-2020)',
        colour = "Road User",
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
@@ -410,10 +410,10 @@ fatal_unique %>%
   ggplot(aes(x = year, y = sum_fatal_state_yr)) +
   geom_line(col = "purple", size = 1) +
   geom_smooth(method = 'loess', color = 'green') +
-  scale_x_continuous(breaks = seq(1989, 2019, 3), limits = c(1989, 2019)) + 
+  scale_x_continuous(breaks = seq(1989, 2020, 3), limits = c(1989, 2020)) + 
   facet_wrap( ~ state, scales = "free_y", ncol = 2) +
   labs(x = "Year", y = "Number of Fatalities",
-       title = 'Australian Road Fatalities by State (1989-2019)',
+       title = 'Australian Road Fatalities by State (1989-2020)',
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
@@ -475,7 +475,7 @@ plt1 <- fatal_state_apop %>%
            parse = TRUE, size = 2.5, colour = "grey40") +
   scale_fill_manual(values = my_colours) +
   labs(x = "State", y = "Fatalities per year for every 100,000 people",
-       title = 'Australian Road Fatality Rate by State (1989-2019)') +
+       title = 'Australian Road Fatality Rate by State (1989-2020)') +
   theme(plot.title = element_text(size = 10, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
         axis.title = element_text(size = 10), legend.position = "right",
@@ -512,11 +512,13 @@ plt
 # Save file and increase dimensions so all labels fit.
 ggsave("fatality_rate.png", path = "images", plot = last_plot(), width = 10, height = 6)
 
+
 ```
 
 Population density is calculated based on ABS estimated population (link provided 
 earlier) and land area for each state 
 (Population Estimates by Statistical Area Level 2, 2005 to 2015) [here](http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3218.02014-15?OpenDocument).
 
-------
+---
+
 
