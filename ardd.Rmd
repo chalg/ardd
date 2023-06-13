@@ -39,7 +39,6 @@ my_colours <- c("#CC79A7", "#56B4E9", "#009E73", "salmon", "peru", "peachpuff4")
 
 # Load required libraries
 library(tidyverse)   # core Tidyverse - Loads dplyr & purrr
-library(lubridate)   # date & time manipulation
 library(ggridges)    # https://cran.r-project.org/web/packages/ggridges/vignettes/introduction.html
 library(janitor)     # simple functions for examining and cleaning dirty data
 library(scales)      # provides internal scaling infrastructure used by ggplot2
@@ -54,8 +53,8 @@ theme_set(theme_minimal())
 
 ```{r echo=TRUE, message=FALSE, warning=FALSE, Load_the_Data}
 # Load the Data
-ardd_fatalities <- read_csv("~/R/ardd/data/ardd_fatalities_dec2020.csv")
-ardd_fatal_crash <- read_csv("~/R/ardd/data/ardd_fatal_crashes_dec2020.csv")
+ardd_fatalities <- read_csv("data/ardd_fatalities_apr2023.csv")
+ardd_fatal_crash <- read_csv("data/ardd_fatal_crashes_apr2023.csv")
 est_pop <- read_csv("~/R/ardd/data/estimated_population.csv")
 state_area <- read_csv("~/R/ardd/data/state_area.csv")
 
@@ -85,8 +84,8 @@ The database can be found [here](https://bitre.gov.au/statistics/safety/fatal_ro
 csv files can be found [here](https://data.gov.au/dataset/ds-dga-5b530fb8-526e-4fbf-b0f6-aa24e84e4277/details?q=crash),
 data dictionary can be found [here](https://bitre.gov.au/statistics/safety/files/ARDD_Dictionary_V3.pdf).
 
-Estimated population can be sourced from  [here](https://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3101.0Jun%202019?OpenDocument)
-(TABLE 4. Estimated Resident Population, States and Territories (Number))
+Estimated population can be sourced from  [here](https://www.abs.gov.au/statistics/people/population/national-state-and-territory-population/latest-release)
+Scroll down to 'States and territories' Annual population change.
 
 The data is already in a tidy format.
 
@@ -100,10 +99,16 @@ fatal <- fatal %>% remove_empty(which = c("rows", "cols")) %>%
 # Perform overview of variables
 glimpse(fatal)
 
+# Create new column to contain hour number, which is easier to analyse,
+fatal <- fatal %>% 
+  separate(time, c("hour", NA), ":", remove = F) %>% 
+  mutate(hour = hour %>% as.numeric())
+
+fatal
 # Create new column to contain hour number, which is easier to analyse, 
 # duplicated columns created in join function previously
-fatal <- fatal %>% mutate(hour = hour(fatal$time)) %>% 
-  select(-ends_with("_2")) %>% glimpse()
+# fatal <- fatal %>%
+#   select(-ends_with("_2")) %>% glimpse()
 
 # There are quite a few duplicates
 # fatal %>% get_dupes(crash_id)
@@ -167,10 +172,10 @@ most common.
 # Review count of fatalties by year, excluding 2017
 hist3 <- fatal %>% 
 ggplot(aes(x = year)) +
-  scale_x_continuous(limits = c(1989, 2020), breaks = seq(1989, 2020, 3)) +
+  scale_x_continuous(limits = c(1989, 2023), breaks = seq(1989, 2023, 3)) +
   geom_histogram(binwidth = 1, fill = my_colours[1], alpha = 0.70) +
   labs(x = "Year", y = "Count",
-       title = 'Australian Road Fatalities (1989-2020)') +
+       title = 'Australian Road Fatalities (1989-2023)') +
   # scale_fill_manual(values = my_colours) +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
@@ -266,7 +271,7 @@ box2 <- fatal %>% filter(!gender == "Unknown",
   scale_y_continuous(breaks = seq(0, 100, 10)) +
   stat_summary(fun.y = mean, geom = 'point', shape = 4) +
   labs(x = "Gender", y = "Age",
-       title = 'Australian Road Fatalities (1989-2020)') +
+       title = 'Australian Road Fatalities (1989-2023)') +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
         axis.title = element_text(size = 10), legend.position = "bottom",
@@ -306,17 +311,17 @@ ggsave("boxplots_patchwork.png", plot = last_plot(), path = "images")
 # Always use fatal_unique when aggregating the number_fatalities field, otherwise
 # it will be overstated.
 fatal_unique %>%
-  filter(year < 2021,
+  filter(year < 2023,
          !is.na(number_fatalities)) %>% 
   group_by(year) %>% 
   summarise(sum_fatal = sum(number_fatalities)) %>% #write_csv("oz_road_fatalities.csv")
   ggplot(aes(x = year, y = sum_fatal)) +
   geom_line(col = "purple", size = 1) +
   geom_smooth(method = 'loess', color = 'green') +
-  scale_x_continuous(breaks = seq(1989, 2020, 1)) +
+  scale_x_continuous(breaks = seq(1989, 2022, 1)) +
   scale_y_continuous(labels = scales::comma) +
   labs(x = "Year", y = "Number of Fatalities",
-       title = "Australian Road Fatalities (1989-2020)",
+       title = "Australian Road Fatalities (1989-2022)",
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
@@ -352,7 +357,7 @@ fatal %>% filter(!gender == "Unspecified",
   scale_colour_manual(values = my_colours) +
   labs(x = "Age", y = "Number of Fatalities",
        title = 'Australian Driver and Motor Cycle Rider Fatalities by Age and Gender',
-       subtitle = "1989-2020",
+       subtitle = "1989-2022",
        colour = "Gender",
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
