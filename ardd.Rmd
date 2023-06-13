@@ -390,7 +390,7 @@ fatal %>% filter(!gender == "Unspecified",
   scale_colour_manual(values = my_colours) +
   facet_wrap(~ gender, scales = "free_y") +
   labs(x = "Age", y = "Number of Fatalities",
-       title = 'Australian Road Fatalities by Road User, Age and Gender (1989-2020)',
+       title = 'Australian Road Fatalities by Road User, Age and Gender (1989-2023)',
        colour = "Road User",
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
@@ -415,10 +415,10 @@ fatal_unique %>%
   ggplot(aes(x = year, y = sum_fatal_state_yr)) +
   geom_line(col = "purple", size = 1) +
   geom_smooth(method = 'loess', color = 'green') +
-  scale_x_continuous(breaks = seq(1989, 2020, 3), limits = c(1989, 2020)) + 
+  scale_x_continuous(breaks = seq(1989, 2022, 3), limits = c(1989, 2022)) + 
   facet_wrap( ~ state, scales = "free_y", ncol = 2) +
   labs(x = "Year", y = "Number of Fatalities",
-       title = 'Australian Road Fatalities by State (1989-2020)',
+       title = 'Australian Road Fatalities by State (1989-2023)',
        caption = "Source: @GrantChalmers | Australian Road Deaths Database (ARDD)") +
   theme(plot.title = element_text(size = 12, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
@@ -480,7 +480,7 @@ plt1 <- fatal_state_apop %>%
            parse = TRUE, size = 2.5, colour = "grey40") +
   scale_fill_manual(values = my_colours) +
   labs(x = "State", y = "Fatalities per year for every 100,000 people",
-       title = 'Australian Road Fatality Rate by State (1989-2020)') +
+       title = 'Australian Road Fatality Rate by State (1989-2023)') +
   theme(plot.title = element_text(size = 10, face = "bold"),
         plot.subtitle = element_text(size = 10, color = "gray20"),
         axis.title = element_text(size = 10), legend.position = "right",

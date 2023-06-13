@@ -1,3 +1,4 @@
+# Spruce up a couple of plots from arrd.rmd
 library(showtext)
 library(ggtext)
 
@@ -34,7 +35,7 @@ fatal %>% filter(!gender == "Unspecified",
        https://data.gov.au/dataset/ds-dga-5b530fb8-526e-4fbf-b0f6-aa24e84e4277/details?q=crash") +
   theme(plot.title = element_text(color = "gray12", family = "oswald"),
         # plot.subtitle = element_text(size = 10, color = "gray20"),
-        plot.subtitle = element_markdown(face = "bold", size = 7.5, family = "cabin"),
+        plot.subtitle = element_markdown(face = "bold", size = 8.5, family = "cabin"),
         axis.title = element_text(size = 10), legend.position = "none",
         axis.text.x = element_text(angle = 0, size = 9),
         plot.caption = element_text(size = 7.25, color = "gray50", family = "oswald"),
@@ -66,7 +67,7 @@ fatal %>% filter(!gender == "Unspecified",
        https://data.gov.au/dataset/ds-dga-5b530fb8-526e-4fbf-b0f6-aa24e84e4277/details?q=crash") +
   theme(plot.title = element_text(color = "gray12", family = "oswald"),
         # plot.subtitle = element_text(size = 10, color = "gray20"),
-        plot.subtitle = element_markdown(face = "bold", size = 7.5, family = "cabin"),
+        plot.subtitle = element_markdown(face = "bold", size = 8.5, family = "cabin"),
         axis.title = element_text(size = 10), legend.position = "none",
         axis.text.x = element_text(angle = 0, size = 9),
         plot.caption = element_text(size = 7.25, color = "gray50", family = "oswald"),
